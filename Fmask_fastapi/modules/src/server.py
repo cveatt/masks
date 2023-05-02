@@ -4,7 +4,7 @@ from predict import predict, transform_image
 
 app = FastAPI()
 
-# put an image and make a prediction
+# Put an image and make a prediction
 @app.post('/objectdetection/')
 async def predict_api(file: UploadFile = File(...)):
 

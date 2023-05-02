@@ -14,30 +14,33 @@ from PIL import Image
 
 device = torch.device('cpu')
 
-# convert bytes into an image
+# Convert bytes into an image
 def transform_image(file):
     image = Image.open(BytesIO(file)).convert('RGB')
     return image
 
-# load fasterrcnn model
+# Load fasterrcnn model
 def fasterrcnn_model(num_classes):
     model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=False)
     in_features = model.roi_heads.box_predictor.cls_score.in_features
     model.roi_heads.box_predictor = FastRCNNPredictor(in_features, num_classes)
     return model
 
-# get a model
+num_classes = 4
+# Get a model
 def load_model():
-    model = fasterrcnn_model(4).to(device)
+    model = fasterrcnn_model(num_classes).to(device)
 
-    model = torch.load('/Users/burninggarment/mask_detection/Face_Mask_detection/fastapi/modules/model_weights.pth', map_location=device)
+    model = torch.load('Fmask_fastapi/modules/model_weights.pth', map_location=device)
     model.eval()
     return model
-    
+
 def predict(image):
-    transform = T.Compose([
-        T.ToTensor()]
-        )
+    transform = T.Compose(
+        [
+            T.ToTensor()
+        ]
+    )
 
     #image = np.array(image)
     image = transform(img=image)
@@ -46,8 +49,4 @@ def predict(image):
     model = load_model()
 
     output = model(image)
-    boxes = output[0]['boxes'].detach().cpu().numpy()
-    labels = output[0]['labels'].detach().cpu().numpy()
-    scores = output[0]['scores'].detach().cpu().numpy()
-
-    return boxes, labels, scores
+    return output

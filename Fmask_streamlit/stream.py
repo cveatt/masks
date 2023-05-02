@@ -43,7 +43,7 @@ def image_with_bbox(image, bboxes):
                 # label = row["labels"]
                 # color = label_colors[label]
                 # print(f"Drawing box with color {color} at coordinates ({xmin},{ymin})-({xmax},{ymax})")
-        draw.rectangle([xmin, ymin, xmax, ymax], width=3)
+        draw.rectangle([xmin, ymin, xmax, ymax], width=1)
     return image_with_box
             
 # Displays a button
@@ -54,7 +54,6 @@ if st.button('Get Predict'):
         image = Image.open(input_image)
         st.image(image, caption='Uploaded Image.', use_column_width=True)
         st.write('Just a second ...')
-        #time.sleep(3)
         predicted_class = json.loads(res.content.decode('utf-8'))
         #print(json.loads(res.content.decode('utf-8')))
         print("Predicted_classes:", predicted_class)
@@ -72,7 +71,7 @@ if st.button('Get Predict'):
             ymin.append(y)
             xmax.append(x + width)
             ymax.append(y + height)
-            #labels.append(classes[label[box[4]]])
+            
         boxes = pd.DataFrame({"xmin": xmin, "ymin": ymin, "xmax": xmax, "ymax": ymax})
         bboxes = boxes[["xmin", "ymin", "xmax", "ymax"]]
         label_colors = {
