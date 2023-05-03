@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, File, UploadFile
-from predict import predict, transform_image
+from predict import predict, filter_mask, NMS_apply, transform_image
 
 app = FastAPI()
 
@@ -18,14 +18,24 @@ async def predict_api(file: UploadFile = File(...)):
     image = transform_image(content)
     prediction = predict(image)
     print(prediction[0])
-    labels = prediction[0]['labels'].tolist()
-    pred_value = prediction[0]['boxes'].tolist()
-    
+
+    threshold = 0.5
+    prefinal_pr = prediction[0]
+    prefinal_pr = filter_mask(prefinal_pr, threshold)
+
+    nms_threshold = 0.3
+    final_pr = NMS_apply(prefinal_pr, prediction[0], nms_threshold)
+
+    boxes = final_pr['boxes'].tolist()
+    labels = final_pr['labels'].tolist()
+    scores = final_pr['scores'].tolist()
+
     response = {
         #'prediction': prediction,
-        'boxes': pred_value,
+        'boxes': boxes,
         'message': 'Prediction successful.',
         'labels': labels,
+        'scores': scores,
     }
     return response
 

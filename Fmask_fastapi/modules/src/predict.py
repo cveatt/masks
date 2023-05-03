@@ -36,17 +36,26 @@ def load_model():
     return model
 
 def predict(image):
-    transform = T.Compose(
-        [
-            T.ToTensor()
-        ]
-    )
-
+    transform = T.Compose([T.ToTensor()])
     #image = np.array(image)
     image = transform(img=image)
     image  = torch.unsqueeze(image, 0)
-
     model = load_model()
-
     output = model(image)
     return output
+
+def filter_mask(prefinal_pr, threshold):
+    my_filter = prefinal_pr['scores'] > threshold
+    prefinal_pr['boxes'] = prefinal_pr['boxes'][my_filter]
+    prefinal_pr['scores'] = prefinal_pr['scores'][my_filter]
+    prefinal_pr['labels'] = prefinal_pr['labels'][my_filter]
+    return prefinal_pr
+
+def NMS_apply(prefinal_pr, output, threshold):
+    keep = torchvision.ops.nms(prefinal_pr['boxes'], prefinal_pr['scores'], threshold)
+
+    pred_filter = output['scores']
+    prefinal_pr['boxes'] = prefinal_pr['boxes'][keep]
+    prefinal_pr['scores'] = prefinal_pr['scores'][keep]
+    prefinal_pr['labels'] = prefinal_pr['labels'][keep]
+    return prefinal_pr
