@@ -31,12 +31,12 @@ async def predict_api(file: UploadFile = File(...)):
     scores = final_pr['scores'].tolist()
 
     response = {
-        #'prediction': prediction,
         'boxes': boxes,
         'message': 'Prediction successful.',
         'labels': labels,
         'scores': scores,
     }
+    print(boxes)
     return response
 
 if __name__ == "__main__":

@@ -37,7 +37,6 @@ def load_model():
 
 def predict(image):
     transform = T.Compose([T.ToTensor()])
-    #image = np.array(image)
     image = transform(img=image)
     image  = torch.unsqueeze(image, 0)
     model = load_model()
