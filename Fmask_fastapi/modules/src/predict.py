@@ -2,10 +2,10 @@ import torch
 import torchvision
 
 import numpy as np
-#import albumentations as A
-#from albumentations.pytorch.transforms import ToTensorV2
-from torchvision import transforms as T
-from torchvision import datasets, models, transforms
+import albumentations as A
+from albumentations.pytorch.transforms import ToTensorV2
+#from torchvision import transforms as T
+#from torchvision import datasets, models, transforms
 from torchvision.models.detection import FasterRCNN
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 
@@ -17,6 +17,7 @@ device = torch.device('cpu')
 # Convert bytes into an image
 def transform_image(file):
     image = Image.open(BytesIO(file)).convert('RGB')
+    image = np.array(image)
     return image
 
 # Load fasterrcnn model
@@ -36,9 +37,10 @@ def load_model():
     return model
 
 def predict(image):
-    transform = T.Compose([T.ToTensor()])
-    image = transform(img=image)
+    transform = A.Compose([ToTensorV2()])
+    image = transform(image=image)["image"]
     image  = torch.unsqueeze(image, 0)
+    image = image.float() / 255.0
     model = load_model()
     output = model(image)
     return output
