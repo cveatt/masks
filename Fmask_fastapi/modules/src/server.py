@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, File, UploadFile
-from predict import predict, filter_mask, NMS_apply, transform_image
+from Fmask_fastapi.modules.src.predict import predict, filter_mask, NMS_apply, transform_image
 
 app = FastAPI()
 
@@ -41,4 +41,3 @@ async def predict_api(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     uvicorn.run(app, host='localhost', port=8080)
-    
