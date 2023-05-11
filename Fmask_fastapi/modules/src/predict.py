@@ -36,13 +36,14 @@ def load_model():
     model.eval()
     return model
 
+model = load_model()
 def predict(image):
     transform = A.Compose([ToTensorV2()])
     image = transform(image=image)["image"]
     image  = torch.unsqueeze(image, 0)
     image = image.float() / 255.0
-    model = load_model()
-    output = model(image)
+    with torch.no_grad():
+        output = model(image)
     return output
 
 def filter_mask(prefinal_pr, threshold):

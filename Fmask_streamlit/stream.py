@@ -51,7 +51,7 @@ def image_with_bbox(image, bboxes, blabels):
         xmin, ymin, xmax, ymax = bbox
         color = class_colors[label]
         
-        draw.rectangle([xmin, ymin, xmax, ymax], outline=color, width=1)
+        draw.rectangle([xmin, ymin, xmax, ymax], outline=color, width=2)
         draw.text((xmin, ymin), fill=color, text=class_colors)
     return image_with_box
             

@@ -1,3 +1,4 @@
+import time
 import uvicorn
 from fastapi import FastAPI, File, UploadFile
 from Fmask_fastapi.modules.src.predict import predict, filter_mask, NMS_apply, transform_image
@@ -16,7 +17,9 @@ async def predict_api(file: UploadFile = File(...)):
     content = await file.read()
 
     image = transform_image(content)
+    start_time = time.time()
     prediction = predict(image)
+    print(f"Processing time: {time.time() - start_time}")
     print(prediction[0])
 
     threshold = 0.5
