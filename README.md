@@ -13,5 +13,8 @@ uvicorn Fmask_fastapi.modules.src.server:app --host=0.0.0.0 --port=8080
 ```
 streamlit run Fmask_streamlit/stream.py
 ```
+```
+streamlit run Fmask_streamlit/stream_in_rl.py
+```
 ## Link to the Kaggle notebook:
 https://www.kaggle.com/code/cveatt/mask-detection
