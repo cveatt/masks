@@ -32,7 +32,7 @@ num_classes = 4
 def load_model():
     model = fasterrcnn_model(num_classes).to(device)
 
-    model = torch.load('Fmask_fastapi/modules/model_weights.pth', map_location=device)
+    model = torch.load('Fmask_fastapi/modules/Custom_model_weights.pth', map_location=device)
     model.eval()
     return model
 
