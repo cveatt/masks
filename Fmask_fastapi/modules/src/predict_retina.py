@@ -51,7 +51,7 @@ model = load_retina_model()
 
 def retina_predict(image):
     transform = A.Compose([ToTensorV2()])
-    image = transform(image=image)["image"]
+    image = transform(image=image)['image']
     image  = torch.unsqueeze(image, 0)
     image = image.float() / 255.0
     with torch.no_grad():

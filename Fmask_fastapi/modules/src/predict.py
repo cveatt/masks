@@ -4,8 +4,6 @@ import torchvision
 import numpy as np
 import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
-#from torchvision import transforms as T
-#from torchvision import datasets, models, transforms
 from torchvision.models.detection import FasterRCNN
 from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 
@@ -39,7 +37,7 @@ def load_model():
 model = load_model()
 def predict(image):
     transform = A.Compose([ToTensorV2()])
-    image = transform(image=image)["image"]
+    image = transform(image=image)['image']
     image  = torch.unsqueeze(image, 0)
     image = image.float() / 255.0
     with torch.no_grad():
@@ -53,10 +51,9 @@ def filter_mask(prefinal_pr, threshold):
     prefinal_pr['labels'] = prefinal_pr['labels'][my_filter]
     return prefinal_pr
 
-def NMS_apply(prefinal_pr, output, threshold):
+def NMS_apply(prefinal_pr, threshold):
     keep = torchvision.ops.nms(prefinal_pr['boxes'], prefinal_pr['scores'], threshold)
 
-    pred_filter = output['scores']
     prefinal_pr['boxes'] = prefinal_pr['boxes'][keep]
     prefinal_pr['scores'] = prefinal_pr['scores'][keep]
     prefinal_pr['labels'] = prefinal_pr['labels'][keep]

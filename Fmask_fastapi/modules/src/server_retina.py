@@ -19,7 +19,7 @@ async def predict_api(file: UploadFile = File(...)):
     image = transform_image(content)
     start_time = time.time()
     prediction = retina_predict(image)
-    print(f"Processing time: {time.time() - start_time}")
+    print(f'Processing time: {time.time() - start_time}')
     print(prediction[0])
 
     threshold = 0.5
@@ -42,5 +42,5 @@ async def predict_api(file: UploadFile = File(...)):
     print(boxes)
     return response
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     uvicorn.run(app, host='localhost', port=8080)
