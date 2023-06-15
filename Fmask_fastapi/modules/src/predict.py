@@ -35,6 +35,7 @@ def load_model():
     return model
 
 model = load_model()
+
 def predict(image):
     transform = A.Compose([ToTensorV2()])
     image = transform(image=image)['image']

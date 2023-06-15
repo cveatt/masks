@@ -22,7 +22,7 @@ streamlit run Fmask_streamlit/stream_in_rl.py
 ```
 ## Run Streamlit for RetinaNet model
 ```
-streamlit run Fmask_streamlit/Fmask_streamlit/stream_retina.py
+streamlit run Fmask_streamlit/stream_retina.py
 ```
 ## Link to the Kaggle notebook:
 https://www.kaggle.com/code/cveatt/facemask-recognition-w-kaggle-data

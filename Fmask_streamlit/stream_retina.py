@@ -51,7 +51,7 @@ def record_video(video_frame):
     # Overlay bounding boxes and labels on frame and display in Streamlit app
     frame_with_boxes = image_with_bbox(img, bboxes, blabels)
     #st.image(frame_with_boxes, channels='BGR')
-    rgb_frame = cv2.cvtColor(frame_with_boxes, cv2.COLOR_BGR2RGB)
+    #rgb_frame = cv2.cvtColor(frame_with_boxes, cv2.COLOR_BGR2RGB)
     return av.VideoFrame.from_ndarray(frame_with_boxes, format='bgr24')
     #return frame_with_boxes
 

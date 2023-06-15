@@ -27,7 +27,7 @@ async def predict_api(file: UploadFile = File(...)):
     prefinal_pr = retina_filter_mask(prefinal_pr, threshold)
 
     nms_threshold = 0.3
-    final_pr = retina_NMS_apply(prefinal_pr, prediction[0], nms_threshold)
+    final_pr = retina_NMS_apply(prefinal_pr, nms_threshold)
 
     boxes = final_pr['boxes'].tolist()
     labels = final_pr['labels'].tolist()
