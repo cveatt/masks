@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import cv2
 import numpy as np
@@ -7,8 +8,10 @@ from streamlit_webrtc import webrtc_streamer
 import av
 import time
 
-
-url = 'http://localhost:8080'
+#ip = os.getenv("IP", None)
+#port = os.getenv("PORT", None)
+url = 'http://localhost:8080' # local run 
+#url = f"{ip}:{port}"
 endpoint = '/objectdetection'
 
 # RGB
@@ -39,9 +42,17 @@ def record_video(video_frame):
     # Send frame to object detection API for inference
     start_time = time.time()
     _, img_encoded = cv2.imencode('.jpg', img)
+    print(777777777)
     response = requests.post(url + endpoint, files={'file': ('image.jpg', img_encoded.tobytes(), 'image/jpeg')})
+    print(response)
+    response = requests.post('http://fastapi:8080' + endpoint, files={'file': ('image.jpg', img_encoded.tobytes(), 'image/jpeg')})
+    # print(response)
+    # response = requests.post('195.177.237.200:8080' + endpoint, files={'file': ('image.jpg', img_encoded.tobytes(), 'image/jpeg')})
+    # print(response)
+
     predictions = json.loads(response.content.decode('utf-8'))
     print(f"Processing time: {time.time() - start_time}")
+    print(response)
 
     bboxes = predictions['boxes']
     blabels = predictions['labels']
@@ -51,7 +62,7 @@ def record_video(video_frame):
     # Overlay bounding boxes and labels on frame and display in Streamlit app
     frame_with_boxes = image_with_bbox(img, bboxes, blabels)
     #st.image(frame_with_boxes, channels='BGR')
-    #rgb_frame = cv2.cvtColor(frame_with_boxes, cv2.COLOR_BGR2RGB)
+    rgb_frame = cv2.cvtColor(frame_with_boxes, cv2.COLOR_BGR2RGB)
     return av.VideoFrame.from_ndarray(frame_with_boxes, format='bgr24')
     #return frame_with_boxes
 

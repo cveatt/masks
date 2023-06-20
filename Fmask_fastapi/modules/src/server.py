@@ -40,7 +40,7 @@ async def predict_api(file: UploadFile = File(...)):
         'labels': labels,
         'scores': scores,
     }
-    print(boxes)
+    print(response)
     return response
 
 if __name__ == '__main__':
