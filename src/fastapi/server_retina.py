@@ -1,7 +1,7 @@
 import time
 import uvicorn
 from fastapi import FastAPI, File, UploadFile
-from Fmask_fastapi.modules.src.predict import predict, filter_mask, NMS_apply, transform_image
+from src.fastapi.predict_retina import retina_predict, retina_filter_mask, retina_NMS_apply, transform_image
 
 app = FastAPI()
 
@@ -18,17 +18,16 @@ async def predict_api(file: UploadFile = File(...)):
 
     image = transform_image(content)
     start_time = time.time()
-    prediction = predict(image)
+    prediction = retina_predict(image)
     print(f'Processing time: {time.time() - start_time}')
     print(prediction[0])
 
     threshold = 0.5
     prefinal_pr = prediction[0]
-    prefinal_pr = filter_mask(prefinal_pr, threshold)
+    prefinal_pr = retina_filter_mask(prefinal_pr, threshold)
 
     nms_threshold = 0.3
-    final_pr = NMS_apply(prefinal_pr, nms_threshold)
-    # final_pr = NMS_apply(prefinal_pr, prediction[0], nms_threshold)
+    final_pr = retina_NMS_apply(prefinal_pr, nms_threshold)
 
     boxes = final_pr['boxes'].tolist()
     labels = final_pr['labels'].tolist()
@@ -40,8 +39,8 @@ async def predict_api(file: UploadFile = File(...)):
         'labels': labels,
         'scores': scores,
     }
-    print(response)
+    print(boxes)
     return response
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='localhost', port=8080)
+    uvicorn.run(app, host='localhost', port=8888)

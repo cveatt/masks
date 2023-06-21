@@ -8,11 +8,11 @@ This is a face mask detection project made in Kaggle by using [PyTorch](https://
 + (OPTIONAL) You can also use a custom datset of [office folks](https://www.kaggle.com/datasets/cveatt/office-masks) and with weights of pretrained on the Kaggle data modify the model.
 ## Run FastAPI for FasterRCNN model
 ```
-uvicorn Fmask_fastapi.modules.src.server:app --host=0.0.0.0 --port=8080
+uvicorn Fmask_fastapi.modules.src.server:app --host=0.0.0.0 --port=8888
 ```
 ## Run FastAPI for RetinaNet model
 ```
-uvicorn Fmask_fastapi.modules.src.server_retina:app --host=0.0.0.0 --port=8080
+uvicorn Fmask_fastapi.modules.src.server_retina:app --host=0.0.0.0 --port=8888
 ```
 ## Run Streamlit for FasterRCNN model
 ```
@@ -36,7 +36,7 @@ docker build -t fastapi -f Dockerfile .
 ```
 ## Run the Docker container for FastAPI
 ```
-docker run -p 8080:8080 fastapi
+docker run -p 8888:8888 fastapi
 ```
 ## Build the Docker image for Streamlit
 ```

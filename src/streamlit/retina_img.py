@@ -5,8 +5,10 @@ import pandas as pd
 import numpy as np 
 import json
 
-url = 'http://localhost:8080'
-endpoint = '/objectdetection'
+HOST = 'http://195.177.237.200' # local run 
+PORT = '8888'
+ENDPOINT = '/objectdetection'
+URL = f'{HOST}:{PORT}{ENDPOINT}'
 
 
 st.title('Object Detection')
@@ -33,7 +35,7 @@ st.write('''
 <li>The image will be displayed with bounding boxes around detected faces indicating the presence of a mask.</li>
 </ol>
 
-<p style="color:black;"><a href="http://localhost:8080/docs" style="color:purple;">Click here to visit the FastAPI documentation</a> for more information on the backend service.</p>
+<p style="color:black;"><a href="http://localhost:8888/docs" style="color:purple;">Click here to visit the FastAPI documentation</a> for more information on the backend service.</p>
 ''', unsafe_allow_html=True)
 
 
@@ -59,16 +61,16 @@ def image_with_bbox(image, bboxes, blabels):
 if st.button('Detect'):
     if input_image is not None:
         files = {'file': input_image}
-        res = requests.post(url + endpoint, files=files)
+        res = requests.post(URL, files=files)
         image = Image.open(input_image)
         st.image(image, caption='Uploaded Image.', use_column_width=True)
         st.write('Just a second ...')
         predicted_class = json.loads(res.content.decode('utf-8'))
-        print("Predicted_classes:", predicted_class)
+        print('Predicted_classes:', predicted_class)
 
         bboxes = predicted_class['boxes']
         blabels = predicted_class['labels']
 
         image_with_boxes = image_with_bbox(np.array(image), bboxes, blabels)
         image_with_boxes = Image.fromarray(np.uint8(image_with_boxes))
-        st.image(image_with_boxes, caption="Image with Bounding Boxes", use_column_width=True)
+        st.image(image_with_boxes, caption='Image with Bounding Boxes', use_column_width=True)
