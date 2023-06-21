@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import requests
 from PIL import Image, ImageDraw  
@@ -5,10 +6,11 @@ import pandas as pd
 import numpy as np 
 import json
 
-HOST = 'http://195.177.237.200' # local run 
-PORT = '8888'
-ENDPOINT = '/objectdetection'
-URL = f'{HOST}:{PORT}{ENDPOINT}'
+# Use the retrieved values in your Streamlit application as needed
+host = os.getenv('HOST')
+port = os.getenv('PORT')
+endpoint = os.getenv('ENDPOINT')
+URL = f'{host}:{port}{endpoint}'
 
 
 st.title('Object Detection')

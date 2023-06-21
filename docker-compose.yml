@@ -7,6 +7,8 @@ services:
     networks:
       - deploy_network
     container_name: fastapi
+    env_file:
+      - src/fastapi/.env
 
   streamlit:
     build: src/streamlit/
@@ -17,6 +19,8 @@ services:
     networks:
       - deploy_network
     container_name: streamlit
+    env_file:
+      - src/streamlit/.env
 
 networks:
   deploy_network:

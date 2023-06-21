@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import cv2
 import requests
@@ -6,12 +7,10 @@ from streamlit_webrtc import webrtc_streamer
 import av
 import time
 
-#ip = os.getenv("IP", None)
-#port = os.getenv("PORT", None)
-HOST = 'http://172.18.0.2' # local run 
-PORT = '8888'
-ENDPOINT = '/objectdetection'
-URL = f'{HOST}:{PORT}{ENDPOINT}'
+host = os.getenv('HOST')
+port = os.getenv('PORT')
+endpoint = os.getenv('ENDPOINT')
+URL = f'{host}:{port}{endpoint}'
 
 
 # RGB

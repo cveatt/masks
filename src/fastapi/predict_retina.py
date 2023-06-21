@@ -1,6 +1,7 @@
 import torch
 import torchvision
 
+import os
 import math
 import numpy as np
 import albumentations as A
@@ -38,12 +39,14 @@ def retinanet_model(num_classes):
     model.head.classification_head.cls_logits = cls_logits
     return model
 
-num_classes = 3
+num_classes = os.getenv('N_CLASSES')
+weights = os.getenv('WEIGHTS')
+
 # Get a model
 def load_retina_model():
     model = retinanet_model(num_classes).to(device)
 
-    model = torch.load('src/fastapi/weights/RetinaNet_weights.pth', map_location=device)
+    model = torch.load(weights, map_location=device)
     model.eval()
     return model
 
