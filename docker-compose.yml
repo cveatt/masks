@@ -1,17 +1,20 @@
 version: '3'
+
 services:
   fastapi:
     build: src/fastapi/
+    env_file:
+      - src/fastapi/.env
     ports: 
       - 8888:8888
     networks:
       - deploy_network
     container_name: fastapi
-    env_file:
-      - src/fastapi/.env
 
   streamlit:
     build: src/streamlit/
+    env_file:
+      - src/streamlit/.env
     depends_on:
       - fastapi
     ports: 
@@ -19,8 +22,6 @@ services:
     networks:
       - deploy_network
     container_name: streamlit
-    env_file:
-      - src/streamlit/.env
 
 networks:
   deploy_network:

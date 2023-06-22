@@ -39,7 +39,7 @@ def retinanet_model(num_classes):
     model.head.classification_head.cls_logits = cls_logits
     return model
 
-num_classes = os.getenv('N_CLASSES')
+num_classes = int(os.getenv('N_CLASSES'))
 weights = os.getenv('WEIGHTS')
 
 # Get a model
