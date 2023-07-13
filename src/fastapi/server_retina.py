@@ -44,34 +44,26 @@ async def predict_api(file: UploadFile = File(...)):
 
     processed_img = image_with_bbox(image, boxes, labels)
 
-    print("Image", processed_img)
-    print(boxes)
-
     output_buffer = io.BytesIO()
     processed_img.save(output_buffer, format='JPEG')
     processed_img_output = output_buffer.getvalue()
 
-    upload_input = upload_to_s3(image.tobytes(), input_bucket_name, 'image.jpg')
-    processed_img_to_s3 = processed_img.copy().tobytes()
+    current_time = datetime.datetime.now().astimezone().isoformat()
+    file_name = f'image_{current_time}.jpeg'
 
-    current_time = datetime.datetime.now().isoformat()
-    file_name = f'processed_image_{current_time}.jpg'
+    upload_input = upload_to_s3(image.tobytes(), input_bucket_name, file_name)
+    processed_img_to_s3 = processed_img.copy().tobytes()
+    
     upload_output = upload_to_s3(processed_img_to_s3, output_bucket_name, file_name)
 
-    # upload_output = upload_to_s3(processed_img, output_bucket_name, 'processed_image.jpg')
-
-    # if not upload_input:
-    #     print('Failed to upload image to S3.')
-    #         #st.stop()
-
-    return StreamingResponse(io.BytesIO(processed_img_output), media_type="image/jpeg")
+    return StreamingResponse(io.BytesIO(processed_img_output), media_type='image/jpg')
 
 def upload_to_s3(file_data, bucket_name, object_name):
     try:
         app.s3.put_object(Body=file_data, Bucket=bucket_name, Key=object_name)
         return True
     except NoCredentialsError:
-        print('AWS credentials not found. Make sure to configure AWS CLI or provide credentials through environment variables.')
+        print('AWS credentials not found.')
         return False
     except Exception as e:
         print(f'Error uploading file to S3: {str(e)}')

@@ -1,5 +1,5 @@
 from PIL import Image, ImageDraw
-import numpy as np
+#import numpy as np
 
 class_colors = {
     0: (0, 255, 0),
@@ -12,9 +12,7 @@ def image_with_bbox(image, bboxes, blabels):
     image_with_box = Image.fromarray(image)
     draw = ImageDraw.Draw(image_with_box)
     
-    #print(bboxes)
     for bbox, label in zip(bboxes, blabels):
-        #print(bbox)
         xmin, ymin, xmax, ymax = bbox
         color = class_colors[label]
         
