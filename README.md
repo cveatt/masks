@@ -9,7 +9,7 @@ This is a face mask detection project made in Kaggle by using [PyTorch](https://
 
 # Run FastAPI
 ```
-uvicorn src/fastapi/server_retina:app --host=0.0.0.0 --port=8888
+uvicorn src/fastapi/server_retina:app --host=0.0.0.0 --port=8180
 ```
 # Run Streamlit
 ## Application for image detection
@@ -28,7 +28,7 @@ docker build -t fastapi -f Dockerfile .
 ```
 ## Run the Docker container for FastAPI
 ```
-docker run -p 8888:8888 fastapi
+docker run -p 8180:8180 fastapi
 ```
 ## Build the Docker image for Streamlit
 ```

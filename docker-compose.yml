@@ -6,7 +6,7 @@ services:
     env_file:
       - src/fastapi/.env
     ports: 
-      - 8888:8888
+      - 8180:8180
     networks:
       - deploy_network
     container_name: fastapi

@@ -34,9 +34,7 @@ def image_with_bbox(image, bboxes, blabels):
 # Function to process video frames
 def record_video(video_frame):
     # Convert frame to OpenCV format
-    #print("IT IS TEST PRIIIIIIIIIIIIIIINNNNNNNNNNNNTTTTTTT")
     img = video_frame.to_ndarray(format='bgr24')
-    #print(img)
     new_size = (480, 400)
     img = cv2.resize(img, new_size)
 
